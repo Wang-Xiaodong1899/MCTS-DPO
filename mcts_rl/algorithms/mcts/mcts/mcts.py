@@ -149,7 +149,7 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
         Apated from: https://github.com/suragnair/alpha-zero-general/blob/ce020c8eebbabf0e22654279508a6887b4791015/MCTS.py#L28C5-L53C21
         """
         visit_counts = [child.N for child in cur_node.children]
-        next_action_V = [child.V for child in cur_node.children]
+        next_action_V = [child.V for child in cur_node.children] # V?
         next_action_Q = [child.Q for child in cur_node.children]
         next_action_n_children = [len(child.children) if child.children is not None else 0 for child in cur_node.children]
         next_action_variance = [calculate_diversity_score(child.children) for child in cur_node.children]
@@ -168,12 +168,13 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
                     return probs
                 except OverflowError as e:
                     print(('Run into {} -- Temperature too small ... Set to zero ...').format(str(e)))
-            best_actions = np.array(np.argwhere(visit_counts == np.max(visit_counts))).flatten()
+            best_actions = np.array(np.argwhere(visit_counts == np.max(visit_counts))).flatten() # take the most visited npodes as the best action
             probs = [0] * len(visit_counts)
             for best_action in best_actions:
-                probs[best_action] = 1 / len(best_actions)
+                probs[best_action] = 1 / len(best_actions) # take the action visit time as the prob if there are more best actions
             return probs
         
+        # sharp
         temperature = self.temperature * (self.temperature_decay_ratio ** cur_node.depth)
         probs = _cal_probs(temperature)
         
@@ -189,6 +190,9 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
                     visit_counts[x] * (next_action_variance[x] + 1 if self.consider_diversity else 1), 
                     next_action_Q[x], next_action_V[x]
                 ))
+                # formula
+                # comparison
+                # first visit_counts * next_action_variance, then next_action_Q, then next_action_V
             else:
                 selected_idx = np.random.choice(range(len(visit_counts)), p=probs)
             return probs, selected_idx, next_action_V, next_action_Q
@@ -228,6 +232,7 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
         return xnode
 
     def _expand_and_evaluate(self, node: MCTSNode):
+        # world model
         if node.state is None:
             node.state = self.world_model.step(node.parent.state, node.action, node.log_probs)
             node.is_terminal = self.world_model.is_terminal(node.state)

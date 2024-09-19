@@ -107,6 +107,7 @@ class MCTSTrainer(TSRLTrainer):
         target_probs, Q_values, r_values, base_values, visit_counts, select_indexes = [], [], [], [], [], []
         cur_node = None
         while cur_node is None or not cur_node.is_terminal:
+            # if LLM output is end-token
             if cur_node is not None and (self.tokenizer.eos_token_id in cur_node.action or self.tokenizer.convert_tokens_to_ids("<|eot_id|>") in cur_node.action):
                 cur_node.is_terminal = True
                 break

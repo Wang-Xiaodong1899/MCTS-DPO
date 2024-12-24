@@ -66,6 +66,8 @@ class TreeConstructor(ABC, Generic[State, Action, Example]):
     def __call__(self, example: Example, node=None, **kwargs) -> HasTerminalStateAndTrace[State]:
         self.world_model.update_example(example)
         self.search_config.update_example(example)
+        
+        # to call MCTS method
         return self.search_algo(self.world_model, 
                                 self.search_config, 
                                 root_node=node, 

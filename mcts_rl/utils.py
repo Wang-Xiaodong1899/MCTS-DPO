@@ -751,7 +751,7 @@ def calculate_diversity_score(candidates):
     # return gap if max(Q_values) > 0 else gap * 0.5
     
     visit_counts = [sample.N for sample in candidates]
-    gap = max(visit_counts) - min(visit_counts)
+    gap = max(visit_counts) - min(visit_counts) # the gap between most visit counts and smallest visit counts
     return gap
 
 

@@ -225,6 +225,7 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
             node = self._puct_select(node)
 
     def _puct(self, node: MCTSNode) -> float:
+        # ctrl-f: p(self)
         return node.Q + self.w_exp * node.p * np.sqrt(node.parent.N) / (1 + node.N)
     
     def _puct_select(self, node: MCTSNode) -> MCTSNode:
@@ -244,21 +245,24 @@ class MCTS(SearchAlgorithm, Generic[State, Action]):
         
         action_batch, log_probs_batch, ref_log_probs_batch = [], [], []
         for action, (log_probs, ref_log_probs), _ in actions:
-            action_batch.append(action)
+            action_batch.append(action) # gen_ids
             log_probs_batch.append(log_probs)
             ref_log_probs_batch.append(ref_log_probs)
+        # get eval_prompt scores on options and outcome score between pred and gt_ans
         reward_value_batch = self.search_config.get_values(self.policy_model, node.state, action_batch, 
                                                            log_probs_batch, ref_log_probs_batch, 
                                                            add_kl=self.add_kl, parent_depth=node.depth,
                                                            parent_value=node.value)
 
         children = []
+        #each response is a child
         for (action, (log_probs, ref_log_probs), embs), (value, base_rewards, is_terminal) in zip(actions, reward_value_batch):
             child = MCTSNode(state=None, action=action, parent=node, 
                              base_rewards=base_rewards, value=value, 
                              embeddings=embs, log_probs=log_probs, ref_log_probs=ref_log_probs,
                              is_terminal=is_terminal, length_penalty=self.length_penalty)
             children.append(child)
+        # expand children
         node.children = children if node.children is None else node.children + children
 
     def _simulate(self, path: list[MCTSNode]):

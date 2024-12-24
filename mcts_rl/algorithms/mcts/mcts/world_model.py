@@ -47,7 +47,7 @@ class StepLMWorldModel(WorldModel[StepLMState, StepLMAction, LMExample]):
     
     def step(self, state: StepLMState, action: StepLMAction, log_probs: torch.Tensor) -> StepLMState:
         state = state.copy()
-        state.append(StepSubResult(action, log_probs))
+        state.append(StepSubResult(action, log_probs)) # action as the next_step_ids
         return state
 
     def is_terminal(self, state: StepLMState) -> bool:

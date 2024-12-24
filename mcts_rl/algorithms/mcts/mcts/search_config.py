@@ -151,7 +151,7 @@ class StepLMConfig(SearchConfig):
     @torch.no_grad()
     def get_actions(self, policy_model, state: StepLMState, add_kl: bool = False) -> list[StepLMAction]:
         at_depth_limit = self.force_terminating_on_depth_limit and len(state) + 1 > self.depth_limit
-        n_actions = self.n_init_actions if not len(state) else self.n_actions
+        n_actions = self.n_init_actions if not len(state) else self.n_actions # action number
         if self.use_mcq:
             n_actions = 2 if at_depth_limit and self.n_actions > 1 else n_actions  # set a larger basic action space for MCQ
         else:
@@ -168,6 +168,7 @@ class StepLMConfig(SearchConfig):
         terminators += [self.base_tokenizer.convert_tokens_to_ids("<|eot_id|>")] if self.model_type == 'llama3' else []
         unique_text_list, sequences_list = [], []
         for _ in trange(n_actions, disable=self.disable_tqdm, desc='Expand: action generation', leave=False):
+            # n_actions different output sentences
             cur_max_new_tokens = self.generation_config.max_new_tokens + (0 if self.use_mcq else 16)
             ## sample candidate steps to construct action space from LLMs with some randomness (temperature >= 0)
             if (not self.get_tp_zero) or unique_text_list or prompt.startswith(PROMPT_BEGIN):
@@ -350,6 +351,7 @@ class StepLMConfig(SearchConfig):
                 ref_log_probs = self._gather_log_probabilities(ref_logits[input_ids.size(-1)-1:-1, :], gen_ids.to(ref_logits.device))
             else:
                 ref_log_probs = None
+            # action definition
             results.append((gen_ids, (log_probs, ref_log_probs), embs))
         return self._filter_via_similarity(results)
 
@@ -468,6 +470,7 @@ class StepLMConfig(SearchConfig):
                             logprobs = F.log_softmax(scores[idx][0], dim=-1)
                             confs = {k: sum(torch.exp(logprobs[tok_id]).detach().item() for tok_id in v) for k, v in option_token_ids.items()}
                             conf = 1.0 * confs['D'] + .0 * confs['C'] + (-1.0) * confs['B'] + (-2.0) * confs['A']
+                            # sum the ABCD option scores
                 return response, conf, False
             
             if self_eval and self.reward_model is None:

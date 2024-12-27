@@ -51,7 +51,7 @@ exec 1> >(tee "${OUTPUT_DIR}/stdout.log" >&1) 2> >(tee "${OUTPUT_DIR}/stderr.log
 
 gpu_vis=$1
 
-python3.10 -m deepspeed --include localhost:$gpu_vis --master_port $MASTER_PORT \
+deepspeed --include localhost:$gpu_vis --master_port $MASTER_PORT \
 	--module mcts_rl.algorithms.mcts \
 	--train_datasets MATH/train \
 	--model_type mistral \

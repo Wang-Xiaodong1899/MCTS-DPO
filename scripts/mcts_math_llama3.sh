@@ -20,7 +20,7 @@ ACTOR_REF_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
 OUTPUT_DIR="MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
 unset HOSTFILE
 ZERO_STAGE=1
-OFFLOAD="optimizer"
+OFFLOAD=None
 
 mkdir -p "${OUTPUT_DIR}"
 OUTPUT_DIR="$(cd "${OUTPUT_DIR}" &>/dev/null && pwd)"
@@ -30,11 +30,8 @@ fi
 
 cp -f "$0" "${OUTPUT_DIR}/script.sh"
 
-export WANDB_API_KEY=""
 export WANDB_MODE=online
-if [[ -z "${WANDB_API_KEY}" ]]; then
-	export WANDB_MODE="offline"
-fi
+
 
 MASTER_PORT_START=10000
 MASTER_PORT_END=65535

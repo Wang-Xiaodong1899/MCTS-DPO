@@ -19,7 +19,7 @@ ACTOR_REF_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
 
 OUTPUT_DIR="MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
 unset HOSTFILE
-ZERO_STAGE=3
+ZERO_STAGE=1
 OFFLOAD="optimizer"
 
 mkdir -p "${OUTPUT_DIR}"

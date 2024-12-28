@@ -15,7 +15,7 @@ ACTOR_REF_MODEL_NAME_OR_PATH="upaya07/Arithmo2-Mistral-7B"
 
 OUTPUT_DIR="MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
 unset HOSTFILE
-ZERO_STAGE=3
+ZERO_STAGE=2
 OFFLOAD="optimizer"
 
 mkdir -p "${OUTPUT_DIR}"

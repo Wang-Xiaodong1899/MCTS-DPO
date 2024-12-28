@@ -28,7 +28,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, get_scheduler
-from transformers.deepspeed import HfDeepSpeedConfig, deepspeed_load_checkpoint
+from transformers.integrations.deepspeed import HfDeepSpeedConfig, deepspeed_load_checkpoint
 
 from mcts_rl.configs import ADAM_BETAS
 from mcts_rl.datasets import TokenizedDataset

@@ -38,7 +38,7 @@ from transformers import (
     PreTrainedTokenizerBase,
     get_scheduler,
 )
-from transformers.deepspeed import HfDeepSpeedConfig
+from transformers.integrations.deepspeed import HfDeepSpeedConfig
 
 from mcts_rl.configs import ADAM_BETAS
 from mcts_rl.datasets import DummyDataset, PromptOnlyBatch, PromptOnlyDataset, SupervisedDataset

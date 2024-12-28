@@ -22,7 +22,7 @@ import deepspeed
 import torch
 import torch.nn.functional as F
 from transformers import AutoModelForCausalLM
-from transformers.deepspeed import HfDeepSpeedConfig
+from transformers.integrations.deepspeed import HfDeepSpeedConfig
 
 from mcts_rl.datasets import PreferenceDataset
 from mcts_rl.models import load_pretrained_models

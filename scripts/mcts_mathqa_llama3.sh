@@ -1,3 +1,8 @@
+export NCCL_P2P_DISABLE=1
+export NCCL_IB_DISABLE=1
+export WANDB_MODE=online
+
+
 if [ -z "${BASH_VERSION}" ]; then
 	echo "Please use bash to run this script." >&2
 	exit 1

@@ -10,8 +10,8 @@ ROOT_DIR="$(dirname "${SCRIPT_DIR}")"
 export PYTHONPATH="${ROOT_DIR}${PYTHONPATH:+:${PYTHONPATH}}"
 export LOGLEVEL="${LOGLEVEL:-WARNING}"
 
-ACTOR_MODEL_NAME_OR_PATH="upaya07/Arithmo2-Mistral-7B"
-ACTOR_REF_MODEL_NAME_OR_PATH="upaya07/Arithmo2-Mistral-7B"
+ACTOR_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
+ACTOR_REF_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
 
 OUTPUT_DIR="MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
 unset HOSTFILE
@@ -54,7 +54,7 @@ gpu_vis=$1
 deepspeed --include localhost:$gpu_vis --master_port $MASTER_PORT \
 	--module mcts_rl.algorithms.mcts \
 	--train_datasets MATH/train \
-	--model_type mistral \
+	--model_type llama3 \
 	--choose_worst \
 	--save_mcts_data \
 	--filter \

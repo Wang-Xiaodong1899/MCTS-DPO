@@ -93,8 +93,7 @@ deepspeed --include localhost:$gpu_vis --master_port $MASTER_PORT \
 	--log_project MCTS-IPL-Math \
 	--zero_stage "${ZERO_STAGE}" \
 	--offload "${OFFLOAD}" \
-	--bf16 True \
-	--tf32 True \
+	--fp16 True \
 	--max_new_tokens 128 \
 	--n_iters 64 \
 	--depth_limit 3 \

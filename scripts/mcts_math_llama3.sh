@@ -73,8 +73,8 @@ deepspeed --include localhost:$gpu_vis --master_port $MASTER_PORT \
 	--epochs 1 \
 	--conservative \
 	--update_iters 1 \
-	--save_interval 20 \
-	--per_device_ptx_batch_size 64 \
+	--save_interval 50 \
+	--per_device_ptx_batch_size 128 \
 	--per_device_prompt_batch_size 1 \
 	--per_device_train_batch_size 1 \
 	--gradient_accumulation_steps 1 \

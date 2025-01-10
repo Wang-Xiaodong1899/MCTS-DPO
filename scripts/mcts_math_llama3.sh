@@ -14,10 +14,10 @@ ROOT_DIR="$(dirname "${SCRIPT_DIR}")"
 export PYTHONPATH="${ROOT_DIR}${PYTHONPATH:+:${PYTHONPATH}}"
 export LOGLEVEL="${LOGLEVEL:-WARNING}"
 
-ACTOR_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
-ACTOR_REF_MODEL_NAME_OR_PATH="unsloth/Llama-3.2-1B-Instruct"
+ACTOR_MODEL_NAME_OR_PATH="/workspace/wxd/Llama-3.2-1B-Instruct"
+ACTOR_REF_MODEL_NAME_OR_PATH="/workspace/wxd/Llama-3.2-1B-Instruct"
 
-OUTPUT_DIR="MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
+OUTPUT_DIR="/volsparse3/wxd/MCTS-DPO/outputs/checkpoints/arithmetic/cdpo-2x2-gtsft"
 unset HOSTFILE
 ZERO_STAGE=1
 OFFLOAD='none'

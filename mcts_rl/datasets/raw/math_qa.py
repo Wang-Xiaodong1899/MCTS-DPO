@@ -8,7 +8,7 @@ from typing import ClassVar
 from datasets import load_dataset
 from mcts_rl.utils import get_math_data, get_arithmo_data, list_to_dict, tqdm
 from mcts_rl.datasets.base import RawDataset, RawSample, jsonlines_load
-
+from datasets import load_dataset, concatenate_datasets
 
 __all__ = [
     'MathQADataset',
@@ -74,7 +74,7 @@ class MathQADataset(RawDataset):
                 common_columns = set(gsm8k.column_names) & set(math.column_names)
                 gsm8k = gsm8k.select_columns(list(common_columns))
                 math = math.select_columns(list(common_columns))
-                self.data = gsm8k.concatenate(math)
+                self.data = concatenate_datasets([gsm8k, math])
 
     def __getitem__(self, index: int) -> RawSample:
         data = self.data[index]

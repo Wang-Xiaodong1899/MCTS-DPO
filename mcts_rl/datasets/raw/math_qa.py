@@ -70,7 +70,11 @@ class MathQADataset(RawDataset):
                 self.data = [vv for v in mathqa_dict.values() for vv in v]
                 # self.data = get_arithmo_data(mathqa_dict)
             else:
-                self.data = gsm8k + math
+                # self.data = gsm8k + math
+                common_columns = set(gsm8k.column_names) & set(math.column_names)
+                gsm8k = gsm8k.select_columns(list(common_columns))
+                math = math.select_columns(list(common_columns))
+                self.data = gsm8k.concatenate(math)
 
     def __getitem__(self, index: int) -> RawSample:
         data = self.data[index]
